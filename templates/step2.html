@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор Футболок - Крок 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Крок 2: Оберіть Прінт</h1>
+
+        <form method="POST" action="{{ url_for('print') }}">
+            <div class="options-grid">
+                {% for print in prints %}
+                    <label class="option-card">
+                        {# radio buttons мають однакове ім'я (name) для групи,
+                           а значення (value) - це ID інгредієнта.
+                           Додано 'checked' для збереження попереднього вибору #}
+                        <input type="radio" name="print" value="{{print.id}}"
+                               {% if selected_print_id and selected_print_id == print.id %}checked{% endif %} required>
+                        <div class="card-content">
+                            <img src="{{ url_for('static', filename=print.image) }}" alt="{{ print.name }}" class="option-image">
+                            <h3>{{ print.name }}</h3>
+                            <p class="price">${{ "%.2f"|format(print.price) }}</p>
+                        </div>
+                    </label>
+                {% endfor %}
+            </div>
+             <a href="{{ url_for('print') }}" class="btn btn-secondary">Назад</a>
+            <button type="submit" class="btn btn-primary">Далі</button>
+        </form>
+    </div>
+</body>
+</html>

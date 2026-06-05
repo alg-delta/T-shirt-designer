@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>prints</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+   <div class="container">
+        <h1>Крок 1: Оберіть Одяг</h1>
+
+
+
+        <form method="POST" action="{{ url_for('shirt') }}">
+            <div class="options-grid">
+{% for shirt in shirts %}
+
+                    <label class="option-card">
+                        <input type="radio" name="shirt" value="{{shirt.id}}" required>
+                        <div class="card-content">
+                            <img src="{{url_for('static',filename=shirt.image)}}" alt="{{shirt.name}}" class="option-image"width="300px" height="300px">
+                            <h3>{{shirt.name}}</h3>
+                            <p>{{shirt.description}}</p>
+                            <p class="price">${{shirt.price}}</p>
+                        </div>
+                    </label>
+ {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Далі</button>
+        </form>
+        <a href="/" class="btn btn-secondary">На головну</a>
+    </div>
+</body>
+</html>

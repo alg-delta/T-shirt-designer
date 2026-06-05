@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор Суші - Підсумок</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Підсумок Вашого Замовлення</h1>
+
+        <div class="summary-details">
+            <h2></h2>
+            <ul>
+                {% if Shirt %}
+                    <li><strong>Тип суші:</strong> {{ shirt.name }} (${{ "%.2f"|format(shirt.price) }})</li>
+                {% endif %}
+                {% if Print %}
+                    <li><strong>Основний інгредієнт:</strong> {{ print.name }} (${{ "%.2f"|format(print.price) }})</li>
+                {% endif %}
+
+                {% if Other %}
+                    <li><strong>Додаткові опції/приправи:</strong>
+                        <ul>
+                            {% for other in others %}
+                                <li>- {{ other.name }}
+                                       ({{ selected_quantities.get(other.id, 1) }} шт.)
+                                    (${{ "%.2f"|format(other.price) }})
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <h2>Контактні Дані:</h2>
+            <ul>
+                <li><strong>Ім'я:</strong> {{ name }}</li>
+                <li><strong>Телефон:</strong> {{ phone }}</li>
+                {% if comment %}
+                    <li><strong>Коментар:</strong> {{ comment }}</li>
+                {% endif %}
+            </ul>
+            <h2 class="total-price">Загальна Ціна: ${{ "%.2f"|format(total_price)}}</h2>
+        </div>
+
+        <div class="summary-actions">
+            <form method="POST" action="/confirm" style="display:inline-block;">
+                <button type="submit" class="btn btn-primary">Підтвердити Замовлення</button>
+            </form>
+			<a href="{{ url_for('other') }}" class="btn btn-secondary">Назад</a>
+            <a href="/" class="btn btn-secondary">Зробити Нове Замовлення</a>
+        </div>
+    </div>
+</body>
+</html>
